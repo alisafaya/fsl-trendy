@@ -19,3 +19,26 @@ During the collection of these topics the following aspects will be taken into c
 - The trends have a diversity of topics (sports, politics, general…)
 - The annotation contain both fine-grained topics (Syrian refugees in Turkey) and wide general topics (Climate Change) as well.
 
+## Evaluation
+
+```
+python src/models.py tdata/val.jsonl negatives_10k.jsonl
+```
+
+## Results
+
+```
+==============================
+              precision    recall  f1-score   support
+
+           0     0.9998    0.9999    0.9999     60000
+           1     0.8750    0.7292    0.7955        48
+
+    accuracy                         0.9997     60048
+   macro avg     0.9374    0.8645    0.8977     60048
+weighted avg     0.9997    0.9997    0.9997     60048
+
+==============================
+[[59995     5]
+ [   13    35]]
+ ```
