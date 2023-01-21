@@ -127,7 +127,7 @@ if __name__ == "__main__":
     iterator = data_iterator(
         topics,
         negatives,
-        batch_size=10000 + 8,
+        batch_size=10000,
         topic_size=8,
         shuffle=True,
         shuffle_in_topic=False,
@@ -154,10 +154,7 @@ if __name__ == "__main__":
         print("Best ratio threshold: ", thresholds[np.argmax(f1_scores)])
         print("Best F1-Score: ", np.max(f1_scores))
 
-    # best_threshold = 0.45
-    # best_ratio_threshold = 3.0 / 8.0
-
-    best_threshold = 0.45   
+    best_threshold = 0.375
     best_ratio_threshold = 3.0 / 8.0
 
     predictions = (batches > best_threshold).float().mean(dim=1) > best_ratio_threshold

@@ -7,6 +7,7 @@ import numpy as np
 import torch
 
 from normalizer import TextNormalizer
+from tqdm import tqdm
 
 text_normalizer = TextNormalizer()
 
@@ -24,6 +25,12 @@ def preprocess(tweet, remove_hashtags=True):
     # remove #hashtag
     if remove_hashtags:
         tweet = re.sub(r"#\w+", " ", tweet)
+    else:
+        matches = re.finditer(
+            ".+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)",
+            tweet.replace("#", " "),
+        )
+        tweet = " ".join([m.group(0) for m in matches])
 
     # normalize punctuations
     tweet = text_normalizer(tweet)
@@ -34,7 +41,7 @@ def load_data(filename, remove_hashtags=True):
     # load data from jsonlines file
     with jsonlines.open(filename) as reader:
         topics = {}
-        for obj in reader:
+        for obj in tqdm(reader, desc="Loading data.."):
             tweet = preprocess(obj["text"], remove_hashtags)
             topic = obj.get("topic", "negative")
             if topic not in topics:
